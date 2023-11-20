@@ -43,6 +43,15 @@ L'exemple fourni ci-après va permettre de faire le point sur les données déj�
 ## Exigences sur les évolutions de la base de données
 Les évolutions de la structure de la base de données doivent permettre d'établir la fiche de validation de stage des étudiants de la section STS-SIO.
 
+Ces évolutions prendront en compte les besoins en sécurité des données :
+- intégrité d'entité,
+- intégrité de domaine,
+- intégrité référentielle
+- 
+Et les bonnes pratiques de nommage des tables, colonnes et contraintes fournies [./bd_guidelines.md](ici).
+
+On profitera de ces évolutions pour vérifier si la structure existante de la base respecte bien les bonnes pratiques de nommage ainsi que les règles d'intégrité des données.
+
 Ces évolutions doivent être accompagnées d'une mise à jour de la fiche de registre pour le traitement Gestion des stages de la section STS-SIO. Le délégué à la protection des données opérera en effet ces rectifications au cours du mois de janvier.
 On doit apporter un soin particulier au recensement exhaustif de toutes les données à caractère personnel, et celles sensibles, ainsi qu'à leur durée de conservation et aux mesures de protection de ces données.
 On proposera des solutions sur le devenir de ces données au terme de la durée limite de conservation.
