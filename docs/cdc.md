@@ -48,7 +48,7 @@ Ces évolutions prendront en compte les besoins en sécurité des données :
 - intégrité de domaine,
 - intégrité référentielle
 - 
-Et les bonnes pratiques de nommage des tables, colonnes et contraintes fournies [./bd_guidelines.md](ici).
+Et les bonnes pratiques de nommage des tables, colonnes et contraintes fournies [bd_guidelines.md](ici).
 
 On profitera de ces évolutions pour vérifier si la structure existante de la base respecte bien les bonnes pratiques de nommage ainsi que les règles d'intégrité des données.
 
