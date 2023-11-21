@@ -9,31 +9,6 @@ CREATE TABLE Specialite (
   constraint PK_Specialite PRIMARY KEY (ref)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Structure de la table Bloc
---
-
-CREATE TABLE Bloc (
-  ref char(2) NOT NULL,
-  refSpe char(1),
-  intitule varchar(60) NOT NULL,
-  constraint PK_Bloc PRIMARY KEY (ref, refSpe),
-  constraint FK_Bloc_Specialite FOREIGN KEY (refSpe) REFERENCES Specialite (ref)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Structure de la table Competence
---
-
-CREATE TABLE Competence (
-  refBloc char(2),
-  numeroOrdre int(2) NOT NULL,
-  refSpe char(1),
-  libelle char(255) DEFAULT NULL,
-  constraint PK_Competence PRIMARY KEY (refBloc, numeroOrdre, refSpe),
-  constraint FK_Competence_Bloc FOREIGN KEY (refBloc, refSpe) REFERENCES Bloc (ref, refSpe)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 -- ----------------------------------------------------
 --
 -- Structure de la table Etudiant
@@ -43,11 +18,7 @@ CREATE TABLE Etudiant (
   numero int(8) NOT NULL,
   nom varchar(50) NOT NULL,
   prenom varchar(50) NOT NULL,
-  adresse varchar(100) DEFAULT NULL,
-  codePostal varchar(5) DEFAULT NULL,
-  ville varchar(100) DEFAULT NULL,
   email varchar(100) NOT NULL,
-  mdp char(20) NOT NULL,
   anneePromo int(4) NOT NULL,
   refSpe char(1),
   constraint PK_Etudiant PRIMARY KEY (numero),
