@@ -1,0 +1,16 @@
+pages:
+  stage: deploy
+  tags:
+    - doc
+  script:
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - mkdir public/docs
+    - mkdocs build --site-dir public/docs
+  artifacts:
+    paths:
+      # The folder that contains the files to be exposed at the Page URL
+      - public
+  only:
+    # This ensures that only pushes to the default branch will trigger a pages deploy
+    - main
