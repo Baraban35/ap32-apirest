@@ -1,5 +1,5 @@
 # Bonnes pratiques sur la structure d'une base de données
-25
+
 ## Conventions pour le nommage des tables, colonnes et contraintes :
 1. Il n’y a pas de blanc ni de caractère accentué dans les noms de table ou de colonne.
 2. Chaque nom de table commence par une majuscule et est suivi de minuscules. S’il est
@@ -23,4 +23,5 @@ Exemples :
 ## Autres vérifications à réaliser
 1. vérifier la pertinence des identifiants de tables, réels ou auto-incrémentés,
 2. vérifier l'absence de redondance de données,
-3. vérifier l'absence de données polysèmes. Si besoin, les conserver après justification. Sinon les renommer
+3. vérifier l'absence de données polysèmes. Si besoin, les conserver après justification. Sinon les renommer.
+4. vérifier le respect des règles d'intégrité : d'entité, de domaine et reférentielle. Voir le cours Cybersecurity Essentials [https://contenthub.netacad.com/legacy/CyberEss/1.0/fr/index.html#5.4.1.1] (ici)
