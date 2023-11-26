@@ -51,8 +51,6 @@ CREATE TABLE Etudiant (
   mdp char(20) NOT NULL,
   anneePromo int(4) NOT NULL,
   refSpe char(1),
-  codeAss varchar(100) DEFAULT NULL,
-  nomAss varchar(100) DEFAULT NULL,
   constraint PK_Etudiant PRIMARY KEY (numero),
   constraint FK_Etudiant_Specialite FOREIGN KEY (refSpe) REFERENCES Specialite (ref)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -83,6 +81,8 @@ CREATE TABLE Organisation (
   fax char(10) DEFAULT NULL,
   email varchar(100) DEFAULT NULL,
   urlSiteWeb varchar(100) DEFAULT NULL,
+  codeAss varchar(100) DEFAULT NULL,
+  nomAss varchar(100) DEFAULT NULL,
   constraint PK_Organisation PRIMARY KEY (numero),
   constraint FK_Organisation_Categorie FOREIGN KEY (idCategorie) REFERENCES Categorie (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
