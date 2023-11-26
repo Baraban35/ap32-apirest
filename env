@@ -22,7 +22,7 @@ CI_ENVIRONMENT = development
 #--------------------------------------------------------------------
 
 # app.baseURL = ''
-app.baseURL = 'http://localhost/sio2/sio2-20232024/ap32-apirest-stage/public'
+app.baseURL = 'http://@IPServeur/cheminServeur/public'
 # If you have trouble with `.`, you could also use `_`.
 # app_baseURL = ''
 # app.forceGlobalSecureRequests = false
