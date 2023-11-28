@@ -29,6 +29,8 @@ Chaque objet organisation présente les propriétés suivantes :
     "fax": string,
     "email": string,
     "urlSiteWeb": string,
+    "orgaAssurance": string,
+    "numAssurance": string,
     "_selfLink" : string
 }
 ```
@@ -55,8 +57,8 @@ Fournit une réponse http avec code statut 200 et le corps de réponse json suiv
       "fax": NULL,
       "email": NULL,
       "urlSiteWeb": NULL,
-      "nomAssurance": NULL,
-      "numeroContratAssurance": NULL,
+      "orgaAssurance": NULL,
+      "numAssurance": NULL,
       "_selfLink": "http://host/path/organisations/1"
     },
     {
@@ -179,12 +181,12 @@ En cas de succès, retourne [`<200>`](rest/api.md#status-codes) et la réponse s
 | Propriété                | Type           | Description                                         |
 |--------------------------|----------------|-----------------------------------------------------|
 | `message`                | string         | Organisation de numéro :numero a été modifiée       |
-| `data`                   | Object data    | Fournit des données sur la nouvelle ressource       |
+| `data`                   | Object data    | Fournit des données sur la ressource  modifiée      |
 
 L'objet data comporte les propriétés suivantes :
 | Propriété                | Type           | Description                                         |
 |--------------------------|----------------|-----------------------------------------------------|
-| `_selfLink`              | string         | Lien absolu vers la nouvelle ressource              |
+| `_selfLink`              | string         | Lien absolu vers la ressource modifiée              |
 
 `
 ### Requête exemple avec succès - code statut 200

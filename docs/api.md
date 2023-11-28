@@ -1,4 +1,4 @@
-# Documentation APIRest du domaine des stages
+# Documentation API-Rest du domaine des stages
 ## Introduction
 L'API REST api-stages-apirest permet d'appliquer certaines des opérations de base CRUD – Create Retrieve Update Delete – à des 3 types de ressources : organisations, stages et contacts.
 
