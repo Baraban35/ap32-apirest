@@ -12,7 +12,7 @@ Procédure à suivre, détail dans la fiche technique sous OneDrive :
 - Demander à accéder au vcenter en saisissant l'URL [https://352009u-srv-vct.352009u.local](https://352009u-srv-vct.352009u.local)
 - Se connecter sous vcenter en renseignant votre login et mot de passe du domaine local
 - Ouvrir l'inventaire et se déplacer dans `CD1 / VM-ELEVES / Modeles`
-- Créer une VM ayant pour nom <VotreNom>_<US22_WEB> à partir du modèle `Modele_us22_web`
+- Créer une VM ayant pour nom `VotreNom_US22_WEB` à partir du modèle `Modele_us22_web`
 - Choisir l’emplacement `VM_ELEVES/SIO2_23/SLAM` pour le stockage de la nouvelle VM
 - Demander ensuite à modifier les paramètres de la VM pour sélectionner 1GO pour la RAM et VLAN SIO2 SLAM pour l'adaptateur réseau.
 - Démarrer la VM et se connecter sous le nom stssio / stssio.
@@ -42,11 +42,11 @@ Vérifier la connexion du compte `userStages` et ses droits d'accès sur la base
 - Demander à installer composer.
 - Demander à voir la version courante de composer.
 - Demander à voir la version courante l'interpréteur php.
-- Vérifier que l'extension intl a bien été installée par la commande :
+- Vérifier que l'extension `intl` a bien été installée par la commande :
   ```bash
   php -m | grep intl
    ```
-- Décommenter la ligne extension=intl dans le fichier `/etc/php/8.1/apache2/php.ini` puis relancer le service apache2.
+- Décommenter la ligne `extension=intl` dans le fichier `/etc/php/8.1/apache2/php.ini` puis relancer le service apache2.
 
 ### Vous authentifier sur la plateforme Gitlab
 Une nouvelle paire de clés SSH va être utilisée pour vous authentifier à partir de votre serveur de recette. Votre serveur de recette étant facilement accessible sur le réseau sio, il est recommandé de protéger votre clé privée par mot de passe.
@@ -55,7 +55,7 @@ Se positionner à la racine du répertoire personnel du compte stssio
 
 Générer une paire de clés RSA par la commande suivante en fournissant une phrase secrète pour protéger votre clé privée. 
 ```bash
-ssh-keygen -t rsa –b 2048 –C “Key ServeurRecette” 
+ssh-keygen -t rsa –b 2048 –C "Key ServeurRecette"
 ```
 
 Vérifier que 2 fichiers `id_rsa` et `id_rsa.pub` sont désormais présents dans le sous-répertoire `/home/stssio/.ssh`
@@ -64,7 +64,7 @@ Copier ces 2 fichiers sous le répertoire `/root/.ssh` pour que cette clé priv�
 
 Récupérer via winscp le fichier `id_rsa.pub` et coller son contenu dans une nouvelle clé publique SSH de votre profil Gitlab. 
 
-Vérifier par la commande ssh que la nouvelle paire de clés permette de vous authentifier sous Gitlab.
+Vérifier par la commande ssh que la nouvelle paire de clés permette de vous authentifier sous Gitlab. Si pas de réponse, lancer le script ./secure.sh pour vous authentifier sur le domaine et ainsi autoriser les flux sécurisés.
 
 Lors de la première demande, il vous sera demandé d'accepter l’empreinte de clé publique du serveur gitlab. La saisie de  la phrase secrète de votre clé privée sera elle demandée lors de chaque authentification.
  
@@ -124,3 +124,23 @@ Il peut rester une opération qui aboutisse à une page non trouvée. A vous d�
 ![codeigniter_pagenotfound](./images/codeigniter_pagenotfound.png)
 
 Voir aussi [ici](https://includebeer.com/fr/blog/la-checklist-des-choses-a-verifier-quand-votre-application-web-codeigniter-4-ne-fonctionne-pas) 
+
+## Sécuriser l'environnement d'exécution en production
+L'emplacement actuel de l'API-REST permet d'accéder au sous-répertoire `public` et par là-même au fichier index.php, contrôleur principal de l'API-REST. Cependant, il est aussi possible d'accéder aux autres sous-répertoires à moins qu'ils ne soient bloqués par une directive telle que `Deny from all`, ce qui est le cas pour le sous-répertoire app, mais pas vendor, ni test, ni .git.
+
+Il apparaît donc intéressant de fournir une URL `ap32` référençant directement un sous-répertoire qui se trouvera dans un sous-répertoire de `/var/www`, et non plus sous `/var/www/html`.
+
+Voici la procédure à suivre :
+1. Déplacer le sous-répertoire `/var/www/html/ap32-stages-apirest` et son contenu sous le répertoire `/var/www`.
+2. Vérifier et réappliquer si besoin l'appartenance du répertoire `/var/www/ap32-stages-apirest` et de son contenu au groupe `www-data` ainsi que le droit d'écriture du sous-répertoire `writable` et de son contenu au groupe `www-data`
+3. Adapter la directive `app.baseURL` du fichier `.env`
+4. Ajouter les lignes suivantes en fin de directive `VirtualHost` dans le fichier `/etc/apache2/sites-available/000-default.conf`
+```bash
+Alias /ap32 /var/www/ap32-stages-apirest/public
+<Directory "/var/www/ap32-stages-apirest/public">
+    AllowOverride all
+    Require all granted
+</Directory>
+```
+1. Redémarrer le service apache2
+2. Ajuster les variables d'environnement `GestionStages-Prod` sous Talend, puis repasser quelques tests sur l'API-REST ainsi hébergée
