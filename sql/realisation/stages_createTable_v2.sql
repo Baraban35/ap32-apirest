@@ -81,8 +81,8 @@ CREATE TABLE Organisation (
   fax char(10) DEFAULT NULL,
   email varchar(100) DEFAULT NULL,
   urlSiteWeb varchar(100) DEFAULT NULL,
-  codeAss varchar(100) DEFAULT NULL,
-  nomAss varchar(100) DEFAULT NULL,
+  numAssurance varchar(100) DEFAULT NULL,
+  orgaAssurance varchar(100) DEFAULT NULL,
   constraint PK_Organisation PRIMARY KEY (numero),
   constraint FK_Organisation_Categorie FOREIGN KEY (idCategorie) REFERENCES Categorie (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
