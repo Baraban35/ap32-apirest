@@ -111,11 +111,11 @@ abstract class BaseController extends Controller
             $response->send();
             exit();
         }
-        // E.g.: $this->session = \Config\Services::session();
     }
+
+        // E.g.: $this->session = \Config\Services::session();
     /**
      * Prépare et envoie une réponse http avec code statut 404 et ressource invalide
-     * @param string $id
      */
     public function sendNomRessourceInvalide() {
         $result = ["message" => "Nom ressource ou méthode HTTP invalide"];
@@ -125,20 +125,4 @@ abstract class BaseController extends Controller
                 ->setJSON($result);
         $this->response->send();
     }
-
-        // E.g.: $this->session = \Config\Services::session();
-    }
-        /**
-     * Prépare et envoie une réponse http avec code statut 404 et ressource invalide
-     * @param string $id
-     */
-    public function sendNomRessourceInvalide() {
-        $result = ["message" => "Nom ressource ou méthode HTTP invalide"];
-        $this->response
-                ->setStatusCode(404)
-                ->setHeader('Content-type', 'application/json')
-                ->setJSON($result);
-        $this->response->send();
-    }
-
 }

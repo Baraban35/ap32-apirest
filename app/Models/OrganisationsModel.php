@@ -37,7 +37,7 @@ class OrganisationsModel extends Model
     * @return array
     */
     public function getList() : array {
-        $query = "select *, libelle as libelleCategorie from Organisation O inner join Categorie C on O.idCategorie=C.id";
+        $query = "select numero, nom, adresse, codePostal, ville, tel, fax, email, urlSiteWeb, numAssurance, orgaAssurance, idCategorie, libelle as libelleCategorie from Organisation O inner join Categorie C on O.idCategorie=C.id";
         $cmd = $this->monPdo->prepare($query);
         $cmd->execute();
         $lignes = $cmd->fetchAll(\PDO::FETCH_OBJ);
