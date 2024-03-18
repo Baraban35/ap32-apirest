@@ -43,4 +43,54 @@ class Organisations extends BaseController
                 ->setJson($result);
         $this->response->send();
     }
+    /**
+     * Modifie une organisation à partir de son numéro
+     * Prépare et envoie la réponse http : code statut, contenu
+     * @param string $num
+     */
+    public function update(string $num) : void {
+        $model = model(OrganisationsModel::class);
+        $numero = intval($num);
+        $uneOrganisation = $model->getById($numero);
+        if ( $uneOrganisation === null ) {
+            $codeStatut = 404;
+            $result = [ "message" => "Numéro organisation inexistant"];
+        }
+        else {
+
+            $data = $this->request->getJSON();
+            if ($data === null) {
+                $codeStatut = 400;
+                $result = ["message" => lang("messagesErreurAPI.dataInvalid"), "errors" => "Aucune donnée attendue"]; 
+            }
+            else {
+                // on récupère toutes les données à modifier dans un objet JSON
+                // il faudra contrôler le domaine de valeurs des données récupérées
+                //  Chargement de la classe validation
+                $validation =  \Config\Services::validation();
+                $rules = [   "ville" => "permit_empty|max_length[60]",
+                             "cp" => "permit_empty|exact_length[5]|regex_match[/[0-9]{5}/]",
+                             "adresse" => "permit_empty|max_length[256]"
+                ];
+                $validation->setRules($rules);
+                $validation->withrequest($this->request);
+                if ( $validation->run() ) {
+                        
+                        // il faudra contrôler le domaine de valeurs des données récupérées
+                        $ok = $model->updateById($num, $data);
+                        $result = ["message" => "OK"];
+                        $codeStatut = 200;
+                }
+                else {
+                    $codeStatut = 400;
+                    $result = ["message" => lang("messagesErreurAPI.dataInvalides"), "errors" => $validation->getErrors()];
+                }
+            }
+        }
+        $this->response
+                ->setStatusCode($codeStatut)
+                ->setHeader('Content-type', 'application/json')
+                ->setJson($result);
+        $this->response->send();
+    }
 }

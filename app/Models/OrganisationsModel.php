@@ -37,7 +37,7 @@ class OrganisationsModel extends Model
     * @return array
     */
     public function getList() : array {
-        $query = "select numero, nom from Organisation";
+        $query = "select *, libelle as libelleCategorie from Organisation O inner join Categorie C on O.idCategorie=C.id";
         $cmd = $this->monPdo->prepare($query);
         $cmd->execute();
         $lignes = $cmd->fetchAll(\PDO::FETCH_OBJ);
@@ -53,7 +53,7 @@ class OrganisationsModel extends Model
     * @return stdClass ou null
     */
     public function getById(int $numero) : ?\stdClass {
-        $query = "select numero, nom, email from Organisation where numero = :numero";
+        $query = "select * from Organisation where numero = :numero";
         $cmd = $this->monPdo->prepare($query);
         $cmd->bindValue("numero", $numero, \PDO::PARAM_INT);
         $cmd->execute();
@@ -64,4 +64,48 @@ class OrganisationsModel extends Model
         }
         return $ligne;
     }
+    /**
+    * Modifie les données d'une organisation correspondant au numéro spécifié
+    * @param string $num
+    * @param Object $objData
+    * @return bool
+    */
+    public function updateById(string $num, Object $objData) : bool {
+        // construit la liste des colonnes à modifier en fonction de la demande
+        $setColumns = (isset($objData->adresse)) ? "adresse = :adresse," : "";
+        $setColumns .= (isset($objData->codePostal)) ? "codePostal = :codePostal," : "";
+        $setColumns .= (isset($objData->ville)) ? "ville = :ville," : "";
+        $setColumns .= (isset($objData->email)) ? "email = :email," : "";
+        $setColumns .= (isset($objData->tel)) ? "tel = :tel," : "";
+
+        $ok = false;
+        if ( mb_strlen($setColumns) > 0 ) { // au moins une colonne à modifier
+            $setColumns = mb_substr($setColumns, 0, mb_strlen($setColumns)-1);
+
+            $query =  "update Organisation set " . $setColumns . " where numero=:num";
+
+            $cmd = $this->monPdo->prepare($query);
+            // valorise les paramètres en fonction de la demande
+            $cmd->bindValue("num", $num);
+            if ( isset($objData->adresse) ) {
+                $cmd->bindValue("adresse", $objData->adresse);
+            }
+            if ( isset($objData->codePostal) ) {
+                $cmd->bindValue("codePostal", $objData->codePostal);
+            }
+            if ( isset($objData->ville) ) {
+                $cmd->bindValue("ville", $objData->ville);
+            }
+            if ( isset($objData->email) ) {
+                $cmd->bindValue("email", $objData->email);
+            }
+            if ( isset($objData->tel) ) {
+                $cmd->bindValue("tel", $objData->tel);
+            }
+            $cmd->execute();
+            $ok = $cmd->rowCount() > 0;
+        }
+        return $ok;
+    }
+
 }

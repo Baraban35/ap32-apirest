@@ -8,6 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('organisations', 'Organisations::getAll');
 $routes->get('organisations/(:num)', 'organisations::getById/$1');
+$routes->put('organisations/(:num)', 'organisations::update/$1');
 
 $routes->get('organisations/(:any)/contacts', 'Contacts::getAll/$1');
 $routes->get('organisations/(:any)/contacts/(:any)', 'Contacts::getById/$1/$2');
